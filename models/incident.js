@@ -81,7 +81,13 @@ var incidentSchema = new Schema({
   Vehicles: {
     Note: String
   },
-  Loc: { type: Number, index: '2dsphere'}
+  geoJson: {
+    type: {
+      type: "String",
+      enum: ['Point', 'LineString', 'Polygon']
+    },
+    coordinates: [Number]
+  }
 });
 
 var incident = Mongoose.model('incident', incidentSchema);

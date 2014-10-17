@@ -20,18 +20,18 @@ function getIncidents(request, reply) {
 }
 
 function searchIncidents(request, reply) {
-  Incident.find({ loc : { $geoWithin : { $box : [ [parseFloat(request.params.left), parseFloat(request.params.bottom)],
-                                                   [parseFloat(request.params.right), parseFloat(request.params.top)] ] } } }, function (err, incident) {
-    if (incident) {
-      reply(incident);
-    } else if (err) {
-      // Log it
-      console.log(err);
-      reply(Boom.notFound());
-    } else {
-      reply("Help");
-    }
-  });
+  //{geoJson:{$geoWithin:{$box:[[-180,-90],[180,90]]}}},
+  Incident.find({geoJson:{$geoWithin:{$box:[[parseFloat(request.params.left), parseFloat(request.params.bottom)],
+                [parseFloat(request.params.right),
+                parseFloat(request.params.top)]]}}},
+                function (err, incident) {
+                  if (!err) {
+                    reply(incident);
+                  } else {
+                    console.log(err);
+                    reply(Boom.badImplementation(err));
+                  }
+                });
 }
 
 function getIncidentsByCaseNumber(request, reply) {
@@ -74,7 +74,7 @@ exports.index = function (server) {
 exports.searchIncidents = function (server) {
   server.route({
     method: 'GET',
-    path: '/incidents/search',
+    path: '/incidents/search/{left}/{top}/{right}/{bottom}',
     handler: searchIncidents
   });
 };
@@ -83,7 +83,7 @@ exports.showByCaseNumber = function (server) {
   // GET /incidents/case_number/{case_number}
   server.route({
     method: 'GET',
-    path: '/incidents/case_number/{CaseNo}',
+    path: '/incidents/{CaseNo}',
     handler: getIncidentsByCaseNumber
   });
 };

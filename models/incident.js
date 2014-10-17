@@ -82,11 +82,8 @@ var incidentSchema = new Schema({
     Note: String
   },
   geoJson: {
-    type: {
-      type: "String",
-      enum: ['Point', 'LineString', 'Polygon']
-    },
-    coordinates: [Number]
+    type: [Number],
+    index: '2dsphere'
   }
 });
 

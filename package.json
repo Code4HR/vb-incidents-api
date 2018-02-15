@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/zirman/vb-incidents-api",
   "dependencies": {
-    "boom": "^2.5.1",
-    "good": "^3.0.1",
-    "hapi": "^7.0.0",
+    "boom": "^6.0.0",
+    "good": "^8.0.0",
+    "hapi": "^17.0.0",
     "mongoose": "^3.8.17",
     "mongodb": "~2.0"
   }
